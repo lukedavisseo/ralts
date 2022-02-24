@@ -1,0 +1,7 @@
+streamlit>=1.0.0
+pandas>=1.2.3
+transformers>=4.12.3
+requests>=2.25.1
+bs4>=0.0.1
+plotly>=5.4.0
+numpy>=1.18.0
