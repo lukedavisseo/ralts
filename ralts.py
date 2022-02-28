@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import json
 from transformers import pipeline
 import textrazor
 import requests
@@ -145,7 +145,7 @@ def update_all_tags():
 	with st.spinner('Reloading tags...'):
 
 		for blog in blogs:
-			
+		
 			# Get tag data
 			for pg in range(1, upper_limits[blog]+1):
 
@@ -158,19 +158,18 @@ def update_all_tags():
 					tags['ID'].append(api_tags[n]['id'])
 					tags['Count'].append(api_tags[n]['count'])
 
-			df_tags = pd.DataFrame(tags).sort_values(by='Count', ascending=False)
-			tags_pickle = f'{blog}_tags_pickle'
-			df_tags.to_pickle(tags_pickle)
+				with open(f"{blog}.json", "w") as outfile:
+					json.dump(tags, outfile)
 			tags['Tag'] = []
 			tags['ID'] = []
 			tags['Count'] = []
 
 list_of_blogs = st.radio("Select the corresponding blog", blogs)
 
-# Load pickle files
-with open(f'{list_of_blogs}_tags_pickle', 'rb') as f:
-	blog_pickle = pickle.load(f)
-	x = blog_pickle['Tag'].tolist()
+# Load JSON files
+with open(f'{list_of_blogs}.json', 'rb') as f:
+	blog_json = json.load(f)
+	x = blog_json['Tag']
 	for n in x:
 		existing_tags.append(n)
 
@@ -183,32 +182,37 @@ if update_tags:
 
 def sf_words():
 
-	sf1 = pd.read_pickle("sampleface.co.uk_tags_pickle")
-	sf_words_lists = sf1['Tag'].tolist()
+	with open("sampleface.co.uk.json") as sf_json_file:
+		sf = json.load(sf_json_file)
+	sf_words_lists = sf['Tag']
 	return sf_words_lists
 
 def cultr_words():
 
-	cf1 = pd.read_pickle("cultrface.co.uk_tags_pickle")
-	cf_words_lists = cf1['Tag'].tolist()
+	with open("cultrface.co.uk.json") as cf_json_file:
+		cf = json.load(cf_json_file)
+	cf_words_lists = cf['Tag']
 	return cf_words_lists
 
 def logic_words():
 
-	lf1 = pd.read_pickle("logicface.co.uk_tags_pickle")
-	lf_words_lists = lf1['Tag'].tolist()
+	with open("logicface.co.uk.json") as lf_json_file:
+		lf = json.load(lf_json_file)
+	lf_words_lists = lf['Tag']
 	return lf_words_lists
 
 def playr_words():
 
-	pf1 = pd.read_pickle("playrface.co.uk_tags_pickle")
-	pf_words_lists = pf1['Tag'].tolist()
+	with open("playrface.co.uk.json") as pf_json_file:
+		pf = json.load(pf_json_file)
+	pf_words_lists = pf['Tag']
 	return pf_words_lists
 
 def da_words():
 
-	da1 = pd.read_pickle("distantarcade.co.uk_tags_pickle")
-	da_words_lists = da1['Tag'].tolist()
+	with open("distantarcade.co.uk.json") as da_json_file:
+		da = json.load(da_json_file)
+	da_words_lists = da['Tag']
 	return da_words_lists
 
 all_words_list = [sf_words(), cultr_words(), logic_words(), playr_words(), da_words()]
@@ -218,8 +222,9 @@ def sampleface():
 	st.header('Sampleface ideas')
 
 	for sample in range(5):
-		sf1 = pd.read_pickle("sampleface.co.uk_tags_pickle")
-		sf_words_count_lists = sf1['Count'].tolist()
+		with open("sampleface.co.uk.json") as sf_json_file:
+			sf = json.load(sf_json_file)
+		sf_words_count_lists = sf['Count']
 		try:
 			x = [n/(n+1) for n in sf_words_count_lists]
 		except ZeroDivisionError:
@@ -234,8 +239,9 @@ def cultrface():
 	st.header('Cultrface ideas')
 
 	for sample in range(5):
-		cf1 = pd.read_pickle("cultrface.co.uk_tags_pickle")
-		cf_words_count_lists = cf1['Count'].tolist()
+		with open("cultrface.co.uk.json") as cf_json_file:
+			cf = json.load(cf_json_file)
+		cf_words_count_lists = cf['Count']
 		try:
 			x = [n/(n+1) for n in cf_words_count_lists]
 		except ZeroDivisionError:
@@ -250,8 +256,9 @@ def logicface():
 	st.header('LOGiCFACE ideas')
 
 	for sample in range(5):
-		lf1 = pd.read_pickle("logicface.co.uk_tags_pickle")
-		lf_words_count_lists = lf1['Count'].tolist()
+		with open("logicface.co.uk.json") as lf_json_file:
+			lf = json.load(lf_json_file)
+		lf_words_count_lists = lf['Count']
 		try:
 			x = [n/(n+1) for n in lf_words_count_lists]
 		except ZeroDivisionError:
@@ -265,8 +272,9 @@ def playrface():
 	st.header('Playrface ideas')
 
 	for sample in range(5):
-		pf1 = pd.read_pickle("playrface.co.uk_tags_pickle")
-		pf_words_count_lists = pf1['Count'].tolist()
+		with open("playrface.co.uk.json") as pf_json_file:
+			pf = json.load(pf_json_file)
+		pf_words_count_lists = pf['Count']
 		try:
 			x = [n/(n+1) for n in pf_words_count_lists]
 		except ZeroDivisionError:
@@ -280,8 +288,9 @@ def distantarcade():
 	st.header('Distant Arcade ideas')
 
 	for sample in range(5):
-		da1 = pd.read_pickle("distantarcade.co.uk_tags_pickle")
-		da_words_count_lists = da1['Count'].tolist()
+		with open("distantarcade.co.uk.json") as da_json_file:
+			da = json.load(da_json_file)
+		da_words_count_lists = da['Count']
 		try:
 			x = [n/(n+1) for n in da_words_count_lists]
 		except ZeroDivisionError:
