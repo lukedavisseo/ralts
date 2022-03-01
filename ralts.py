@@ -44,23 +44,19 @@ def plot_result(top_topics, scores):
 def req(url):
 	resp = requests.get(url)
 	soup = BeautifulSoup(resp.content, 'html.parser')
-	st.write(soup.text)
 	if soup.find("div", id="comments") and soup.find("div", id="secondary"):
 		remove_comments = soup.find("div", id="comments")
 		remove_comments.extract()
 		remove_secondary = soup.find("div", id="secondary")
 		remove_secondary.extract()
-		st.write('true')
 		ext_t = [t.text for t in soup.find_all(['h1', 'p'])]
 		paragraphs = ' '.join(ext_t)
 		return paragraphs
 	elif soup.find("div", id="comments") and soup.find("aside", id="secondary"):
 		remove_comments = soup.find("div", id="comments")
 		remove_comments.extract()
-		st.write(soup.content)
 		remove_secondary = soup.find("aside", id="secondary")
 		remove_secondary.extract()
-		st.write('true')
 		ext_t = [t.text for t in soup.find_all(['h1', 'p'])]
 		paragraphs = ' '.join(ext_t)
 		return paragraphs
