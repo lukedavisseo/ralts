@@ -44,11 +44,23 @@ def plot_result(top_topics, scores):
 def req(url):
 	resp = requests.get(url)
 	soup = BeautifulSoup(resp.content, 'html.parser')
-	if soup.find("div", id="comments") or soup.find("div", id="secondary"):
+	st.write(soup.text)
+	if soup.find("div", id="comments") and soup.find("div", id="secondary"):
 		remove_comments = soup.find("div", id="comments")
 		remove_comments.extract()
 		remove_secondary = soup.find("div", id="secondary")
 		remove_secondary.extract()
+		st.write('true')
+		ext_t = [t.text for t in soup.find_all(['h1', 'p'])]
+		paragraphs = ' '.join(ext_t)
+		return paragraphs
+	elif soup.find("div", id="comments") and soup.find("aside", id="secondary"):
+		remove_comments = soup.find("div", id="comments")
+		remove_comments.extract()
+		st.write(soup.content)
+		remove_secondary = soup.find("aside", id="secondary")
+		remove_secondary.extract()
+		st.write('true')
 		ext_t = [t.text for t in soup.find_all(['h1', 'p'])]
 		paragraphs = ' '.join(ext_t)
 		return paragraphs
@@ -323,7 +335,7 @@ def textrazor_extraction(input_type):
 			if entity.relevance_score > 0:
 				ent_dict['Keyword'].append(entity.id)
 				ent_dict['Relevance Score'].append(entity.relevance_score)
-				if entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags:
+				if entity.id in existing_tags or entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags or any(existing_tag in entity.id for existing_tag in existing_tags):
 					ent_dict['Existing Tag'].append(1)
 				else:
 					ent_dict['Existing Tag'].append(0)
@@ -332,7 +344,7 @@ def textrazor_extraction(input_type):
 			if topic.score > 0.6:
 				topics_dict['Topic'].append(topic.label)
 				topics_dict['Relevance Score'].append(topic.score)
-				if topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags:
+				if topic.label in existing_tags or topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags or any(existing_tag in topic.label for existing_tag in existing_tags):
 					topics_dict['Existing Tag'].append(1)
 				else:
 					topics_dict['Existing Tag'].append(0)
@@ -348,7 +360,7 @@ def textrazor_extraction(input_type):
 			if entity.relevance_score > 0:
 				ent_dict['Keyword'].append(entity.id)
 				ent_dict['Relevance Score'].append(entity.relevance_score)
-				if entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags:
+				if entity.id in existing_tags or entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags or any(existing_tag in entity.id for existing_tag in existing_tags):
 					ent_dict['Existing Tag'].append(1)
 				else:
 					ent_dict['Existing Tag'].append(0)
@@ -357,7 +369,7 @@ def textrazor_extraction(input_type):
 			if topic.score > 0.6:
 				topics_dict['Topic'].append(topic.label)
 				topics_dict['Relevance Score'].append(topic.score)
-				if topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags:
+				if topic.label in existing_tags or topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags or any(existing_tag in topic.label for existing_tag in existing_tags):
 					topics_dict['Existing Tag'].append(1)
 				else:
 					topics_dict['Existing Tag'].append(0)
@@ -376,7 +388,7 @@ def textrazor_extraction(input_type):
 				if entity.relevance_score > 0:
 					ent_dict['Keyword'].append(entity.id)
 					ent_dict['Relevance Score'].append(entity.relevance_score)
-					if entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags:
+					if entity.id in existing_tags or entity.id.lower() in existing_tags or entity.id.capitalize() in existing_tags or any(existing_tag in entity.id for existing_tag in existing_tags):
 						ent_dict['Existing Tag'].append(1)
 					else:
 						ent_dict['Existing Tag'].append(0)
@@ -385,7 +397,7 @@ def textrazor_extraction(input_type):
 				if topic.score > 0.6:
 					topics_dict['Topic'].append(topic.label)
 					topics_dict['Relevance Score'].append(topic.score)
-					if topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags:
+					if topic.label in existing_tags or topic.label.lower() in existing_tags or topic.label.capitalize() in existing_tags or any(existing_tag in topic.label for existing_tag in existing_tags):
 						topics_dict['Existing Tag'].append(1)
 					else:
 						topics_dict['Existing Tag'].append(0)
