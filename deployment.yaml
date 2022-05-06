@@ -1,0 +1,18 @@
+image: paperspace/nb-transformers:4.17.0
+port: 8501
+command:
+  - /bin/sh
+  - '-c'
+  - |
+    cd /opt/repos/repo
+    pip install -r requirements.txt
+    streamlit run ralts.py
+repositories:
+  mountPath: /opt/repos
+  repositories:
+    - url: https://github.com/lukedavisseo/ralts
+      name: ralts
+      ref: main
+resources:
+  replicas: 1
+  instanceType: A4000
