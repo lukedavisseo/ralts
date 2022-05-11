@@ -5,6 +5,8 @@ command:
   - '-c'
   - |
     cd /opt/repos/repo
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
     pip install -r requirements.txt
     streamlit run ralts.py
 repositories:
