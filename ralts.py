@@ -10,7 +10,8 @@ import numpy as np
 import random
 
 # TextRazor details
-textrazor.api_key = 'API_KEY'
+add_api_key = st.text_input('Please enter the API key')
+textrazor.api_key = add_api_key
 
 client = textrazor.TextRazor(extractors=["entities", "topics"])
 client.set_classifiers(["textrazor_newscodes"])
