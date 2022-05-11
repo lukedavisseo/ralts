@@ -4,8 +4,16 @@ command:
   - /bin/sh
   - '-c'
   - |
+    cd /opt/repos/repo
     pip install -r requirements.txt
     streamlit run ralts.py
+repositories:
+  dataset: ds3mkvhjgnqc6uy
+  mountPath: /opt/repos
+  repositories:
+    - url: https://github.com/lukedavisseo/ralts
+      name: repo
+      ref: main
 resources:
   replicas: 1
   instanceType: A4000
