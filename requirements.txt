@@ -1,9 +1,9 @@
 streamlit
-pandas==1.2.3
-transformers==4.12.3
-requests==2.25.1
+pandas
+transformers
+requests
 bs4
-plotly==5.4.0
-numpy==1.18.0
-textrazor==1.4.0
-tensorflow==2.7.0
+plotly
+numpy
+textrazor
+tensorflow
