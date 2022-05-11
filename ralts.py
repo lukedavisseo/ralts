@@ -9,13 +9,6 @@ import plotly.express as px
 import numpy as np
 import random
 
-# TextRazor details
-add_api_key = st.text_input('Please enter the API key')
-textrazor.api_key = add_api_key
-
-client = textrazor.TextRazor(extractors=["entities", "topics"])
-client.set_classifiers(["textrazor_newscodes"])
-
 # Load model
 @st.cache(allow_output_mutation=True)
 def load_model():
@@ -134,6 +127,14 @@ tag_ideas = st.sidebar.button('Load tag ideas')
 # Determines input types
 st.title('Welcome to RALTS (Really Awesome Lexicon and Tag Suggester)!')
 st.write('This script can analyse any body of text or URL to find extract keywords, topics, and categories using NLP (natural language processing).')
+
+# TextRazor details
+add_api_key = st.text_input('Please enter the API key')
+textrazor.api_key = add_api_key
+
+client = textrazor.TextRazor(extractors=["entities", "topics"])
+client.set_classifiers(["textrazor_newscodes"])
+
 if input_type == 'Text':
 	txt = st.text_area('Enter text to be analysed...')
 	txt = txt.replace('\n', ' ').replace('"', '').replace('“','').replace('”', '').replace('‘','').replace('’', '').replace("'s", '').replace(",", '')
