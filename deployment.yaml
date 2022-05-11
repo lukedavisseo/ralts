@@ -6,11 +6,6 @@ command:
   - |
     pip install -r requirements.txt
     streamlit run ralts.py
-repositories:
-  repositories:
-    - url: https://github.com/lukedavisseo/ralts
-      name: ralts
-      ref: main
 resources:
   replicas: 1
   instanceType: A4000
